@@ -33,6 +33,12 @@ upload.addEventListener('change', event => {
     reader.onload = () => {
         const image = new Image();
         image.onload = () => {
+            const pixelCount = image.naturalWidth * image.naturalHeight;
+            if (image.naturalWidth > 8192 || image.naturalHeight > 8192 || pixelCount > 40000000) {
+                fileNameDisplay.textContent = 'Image dimensions are too large. Use an image no larger than 8192 × 8192 and 40 million pixels total.';
+                upload.value = '';
+                return;
+            }
             sourceImage = image;
             canvas.width = image.naturalWidth;
             canvas.height = image.naturalHeight;
